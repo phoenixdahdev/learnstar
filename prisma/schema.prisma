@@ -1,0 +1,128 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  email           String           @unique
+  name            String?
+  password        String
+  role            Role             @relation(fields: [role_id], references: [id])
+  role_id         Int
+  school          School?          @relation(fields: [school_id], references: [id])
+  school_id       Int?
+  google_id       String?
+  is_teacher      Boolean          @default(false)
+  is_parent       Boolean          @default(false)
+  is_student      Boolean          @default(false)
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+  deleted_at      DateTime?
+  teacher_profile TeacherProfile?
+  parent_profile  ParentProfile?
+  student_profile StudentProfile?
+  parents         ParentProfile[]  @relation("ParentChild")
+  children        StudentProfile[] @relation("ParentChild")
+
+  @@map("users")
+}
+
+model School {
+  id           Int           @id @default(autoincrement())
+  name         String
+  address      String?
+  subscription Subscription?
+  users        User[]
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  deleted_at   DateTime?
+
+  @@map("schools")
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  permissions Permission[]
+  users       User[]
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+  deleted_at  DateTime?
+
+  @@map("roles")
+}
+
+model Permission {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  roles      Role[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@map("permissions")
+}
+
+model Subscription {
+  id         Int       @id @default(autoincrement())
+  school     School    @relation(fields: [school_id], references: [id])
+  school_id  Int       @unique
+  plan       Plan
+  start_date DateTime
+  end_date   DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@map("subscriptions")
+}
+
+model TeacherProfile {
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    Int       @unique
+  subjects   String[]
+  bio        String?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@map("teacher_profiles")
+}
+
+model ParentProfile {
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    Int       @unique
+  children   User[]    @relation("ParentChild")
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@map("parent_profiles")
+}
+
+model StudentProfile {
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    Int       @unique
+  grade      String?
+  parents    User[]    @relation("ParentChild")
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@map("student_profiles")
+}
+
+enum Plan {
+  FREE
+  BASIC
+  PREMIUM
+  ENTERPRISE
+}

@@ -27,7 +27,7 @@ export function TeacherCTA() {
             <Input
               type="email"
               placeholder="Enter your email address"
-              className="flex-grow"
+              className="grow"
             />
             <Button className="bg-golden text-cream hover:bg-golden/90">
               Get Started <ArrowRight className="ml-2 h-4 w-4" />

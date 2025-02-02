@@ -112,7 +112,7 @@ export function Pricing() {
                     key={featureIndex}
                     className="flex items-center text-brown/80"
                   >
-                    <Check className="h-5 w-5 text-golden mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-golden mr-2 shrink-0" />
                     <span>{feature}</span>
                   </li>
                 ))}

@@ -68,7 +68,7 @@ export function TryItOut() {
               <Link href={tool.link} className="block">
                 <div className="relative group">
                   <div
-                    className={`absolute inset-0 bg-gradient-to-r ${tool.color} rounded-2xl opacity-90 transition-transform group-hover:scale-105`}
+                    className={`absolute inset-0 bg-linear-to-r ${tool.color} rounded-2xl opacity-90 transition-transform group-hover:scale-105`}
                   />
                   <div className="relative p-6 text-white">
                     <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-6">

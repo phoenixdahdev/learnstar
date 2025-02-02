@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/utils";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import type React from "react"; // Import React
+import type React from "react";
 
 const inter = Inter({
   display: "swap",
@@ -100,11 +98,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className={cn("relative antialiased", inter.className)}>
-        <main className="relative min-h-dvh w-full bg-cream">
-          <Navbar />
-          {children}
-          <Footer />
-        </main>
+        <main className="relative min-h-dvh w-full bg-cream">{children}</main>
       </body>
     </html>
   );

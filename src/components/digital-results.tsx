@@ -37,15 +37,15 @@ export function DigitalResults() {
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start">
-                <FileText className="h-6 w-6 text-golden mr-2 flex-shrink-0 mt-1" />
+                <FileText className="h-6 w-6 text-golden mr-2 shrink-0 mt-1" />
                 <span>Instant access to student reports</span>
               </li>
               <li className="flex items-start">
-                <Download className="h-6 w-6 text-golden mr-2 flex-shrink-0 mt-1" />
+                <Download className="h-6 w-6 text-golden mr-2 shrink-0 mt-1" />
                 <span>Download reports in PDF format</span>
               </li>
               <li className="flex items-start">
-                <FileText className="h-6 w-6 text-golden mr-2 flex-shrink-0 mt-1" />
+                <FileText className="h-6 w-6 text-golden mr-2 shrink-0 mt-1" />
                 <span>Comprehensive term-by-term performance analysis</span>
               </li>
             </ul>
@@ -63,7 +63,7 @@ export function DigitalResults() {
             transition={{ duration: 0.5 }}
             className="relative"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-golden to-amber-600 rounded-2xl transform rotate-3" />
+            <div className="absolute inset-0 bg-linear-to-r from-golden to-amber-600 rounded-2xl transform rotate-3" />
             <div className="relative bg-white p-6 rounded-2xl shadow-xl">
               <h4 className="text-xl font-semibold text-brown mb-4">
                 Sample Student Report

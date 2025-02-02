@@ -137,7 +137,7 @@ export default function DigitalResults() {
         </Button>
       </Link>
 
-      <Card className="max-w-5xl mx-auto bg-white/50 backdrop-blur-sm shadow-xl">
+      <Card className="max-w-5xl mx-auto bg-white/50 backdrop-blur-xs shadow-xl">
         <div className="border-b border-golden/20 p-4">
           <h1 className="text-2xl font-semibold text-brown mb-2">
             Digital Student Results

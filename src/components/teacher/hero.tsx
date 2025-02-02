@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 export function TeacherHero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-cream to-golden/10 pt-20 pb-12 md:pt-32 md:pb-20">
+    <section className="relative overflow-hidden bg-linear-to-b from-cream to-golden/10 pt-20 pb-12 md:pt-32 md:pb-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export function TeacherHero() {
           </Button>
         </motion.div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-cream to-transparent"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-linear-to-t from-cream to-transparent"></div>
     </section>
   );
 }

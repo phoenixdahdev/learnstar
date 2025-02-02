@@ -11,17 +11,47 @@ import { marked } from "marked";
 import parse from "html-react-parser";
 import { cn } from "@/utils";
 
-export default function Chat() {
+const getInitialMessage = (
+  type: "lesson-note" | "exam" | "marking" | "assessment"
+) => {
+  switch (type) {
+    case "lesson-note":
+      return "Hello! I'm your LearnStar.AI lesson planning assistant. I can help you create detailed lesson notes, customize teaching materials, and develop engaging learning activities. What subject and topic would you like to work on?";
+    case "exam":
+      return "Welcome! I'm your LearnStar.AI exam creation assistant. I can help you generate questions, structure exam papers, and create marking schemes. What type of exam would you like to create?";
+    case "marking":
+      return "Hi there! I'm your LearnStar.AI marking assistant. I can help you develop rubrics, standardize grading criteria, and provide feedback templates. How would you like to streamline your marking process?";
+    case "assessment":
+      return "Hello! I'm your LearnStar.AI Assignment specialist. I can help you create formative assessments, track student progress, and analyze learning outcomes. What type of assessment would you like to develop?";
+    default:
+      return "Hello! I'm your LearnStar.AI assistant. How can I help transform your school today?";
+  }
+};
+
+export default function Chat({
+  type = "lesson-note",
+}: {
+  type: "lesson-note" | "exam" | "marking" | "assessment";
+}) {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
       initialMessages: [
         {
           id: "1",
           role: "assistant",
-          content:
-            "Hello! I'm your LearnStar.AI assistant. How can I help transform your school today? I can provide information about our AI-powered tools, revenue generation strategies, and educational solutions.",
+          content: getInitialMessage(type),
         },
       ],
+      api:
+        type === "lesson-note"
+          ? "/api/tools/lesson-note"
+          : type === "assessment"
+          ? "/api/tools/assessment"
+          : type === "exam"
+          ? "/api/tools/exam"
+          : type === "marking"
+          ? "/api/tools/marking"
+          : "/api/chat",
     });
 
   return (
@@ -34,7 +64,7 @@ export default function Chat() {
           </Button>
         </Link>
 
-        <Card className="max-w-4xl mx-auto bg-white/50 backdrop-blur-sm shadow-xl">
+        <Card className="max-w-4xl mx-auto bg-white/50 backdrop-blur-xs shadow-xl">
           <div className="border-b border-golden/20 p-4">
             <h2 className="text-xl font-semibold text-brown">
               LearnStar.AI Assistant
@@ -61,7 +91,7 @@ export default function Chat() {
                   )}
                 >
                   {message.role === "assistant" && (
-                    <div className="w-8 h-8 rounded-full bg-golden/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-golden/20 flex items-center justify-center shrink-0">
                       <Bot className="h-5 w-5 text-golden" />
                     </div>
                   )}
@@ -80,7 +110,7 @@ export default function Chat() {
                   </div>
 
                   {message.role === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-golden flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-golden flex items-center justify-center shrink-0">
                       <User className="h-5 w-5 text-cream" />
                     </div>
                   )}
