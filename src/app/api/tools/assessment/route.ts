@@ -1,13 +1,18 @@
 import { CoreMessage, streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI, } from '@ai-sdk/openai';
 
 export const runtime = "edge";
+
+const openai = createOpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+    baseURL: process.env.OPENAI_BASE_URL,
+})
 
 export async function POST(req: Request) {
     const { messages }: { messages: CoreMessage[] } = await req.json();
 
     const result = streamText({
-        model: openai("gpt-4"),
+        model: openai("gpt-3.5-turbo"),
         system: `Your name is LearnStar, You are an expert assessment creator. Generate assessment questions that:
         1. Are aligned with learning objectives
         2. Include a mix of question types (MCQ, short answer, etc.)
