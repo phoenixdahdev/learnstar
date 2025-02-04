@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from 'react'
-import { useEditor, useEditorState } from '@tiptap/react'
+import { useEditor, } from '@tiptap/react'
 import type { AnyExtension, Editor, EditorOptions } from '@tiptap/core'
+import ExtensionKit from '@/editor/extentions'
 
 
 
@@ -12,11 +11,40 @@ declare global {
 }
 
 
-export const useBlockEditor = ({
-    aiToken,
-    ...editorOptions
-}: {
-    aiToken?: string
-} & Partial<Omit<EditorOptions, 'extensions'>>) => {
+export const useBlockEditor = (options: Partial<Omit<EditorOptions, "extensions">> = {}) => {
+    const editor = useEditor(
+        {
+            ...options,
+            immediatelyRender: true,
+            shouldRerenderOnTransaction: false,
+            autofocus: true,
+            extensions: [
+                ...ExtensionKit(),
+                // aiToken
+                //     ? AiWriter.configure({
+                //         authorId: userId,
+                //         authorName: userName,
+                //     })
+                //     : undefined,
+                // aiToken
+                //     ? AiImage.configure({
+                //         authorId: userId,
+                //         authorName: userName,
+                //     })
+                //     : undefined,
+                // aiToken ? Ai.configure({ token: aiToken }) : undefined,
+            ].filter((e): e is AnyExtension => e !== undefined),
+            editorProps: {
+                attributes: {
+                    autocomplete: 'off',
+                    autocorrect: 'off',
+                    autocapitalize: 'off',
+                    class: 'min-h-full',
+                },
+            },
+        },
+        [],
+    )
 
+    return editor
 }
