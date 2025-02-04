@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function Navbar({ url }: { url?: string }) {
+export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className="fixed w-full bg-cream/80 backdrop-blur-md z-50 border-b border-golden/20">
@@ -52,7 +52,7 @@ export function Navbar({ url }: { url?: string }) {
               Contact
             </Link>
             <Button asChild className="bg-golden hover:bg-golden/90 text-cream">
-              <Link href={`${url as string}/get-started`}>Get Started</Link>
+              <Link href="/auth/get-started">Get Started</Link>
             </Button>
           </div>
 
@@ -114,7 +114,7 @@ export function Navbar({ url }: { url?: string }) {
                 className="w-full bg-golden hover:bg-golden/90 text-cream"
                 onClick={() => setIsOpen(false)}
               >
-                <Link href={`${url as string}/get-started`}>Get Started</Link>
+                <Link href="/auth/get-started">Get Started</Link>
               </Button>
             </div>
           </motion.div>

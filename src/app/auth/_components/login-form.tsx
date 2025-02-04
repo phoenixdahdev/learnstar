@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type * as z from "zod";
-
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,9 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/schema";
+import { login } from "@/actions/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -31,10 +35,20 @@ export function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    setIsLoading(true);
-    // Handle form submission
-    console.log(values);
-    setIsLoading(false);
+    startTransition(async () => {
+      const res = await login(values);
+      if (res.success) {
+        await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+          redirect: false,
+        });
+        toast.success("Logged in successfully!");
+        router.push(res.user?.is_teacher ? "/teacher/dashboard" : "/");
+      } else {
+        toast.error(res.error);
+      }
+    });
   }
 
   return (
@@ -103,7 +117,12 @@ export function LoginForm() {
         </div>
       </div>
 
-      <Button variant="outline" type="button" className="w-full">
+      <Button
+        variant="outline"
+        type="button"
+        className="w-full"
+        onClick={() => signIn("google", { redirectTo: "/redirect" })}
+      >
         <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -128,7 +147,7 @@ export function LoginForm() {
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
         <Link
-          href="/get-started"
+          href="/auth/get-started"
           className="underline underline-offset-4 hover:text-primary"
         >
           Sign up

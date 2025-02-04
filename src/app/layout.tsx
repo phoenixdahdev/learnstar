@@ -3,6 +3,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/utils";
 import type React from "react";
+import { Toaster } from "sonner";
+import { Providers } from "./provider";
 
 const inter = Inter({
   display: "swap",
@@ -98,7 +100,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className={cn("relative antialiased", inter.className)}>
-        <main className="relative min-h-dvh w-full bg-cream">{children}</main>
+        <Providers>
+          <main className="relative min-h-dvh w-full bg-cream">
+            {children}
+            <Toaster richColors expand={true} position="top-right" />
+          </main>
+        </Providers>
       </body>
     </html>
   );

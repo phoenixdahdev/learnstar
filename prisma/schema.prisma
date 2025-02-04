@@ -11,12 +11,13 @@ model User {
   id              Int              @id @default(autoincrement())
   email           String           @unique
   name            String?
-  password        String
-  role            Role             @relation(fields: [role_id], references: [id])
-  role_id         Int
+  password        String?
+  // role            Role             @relation(fields: [role_id], references: [id])
+  // role_id         Int
   school          School?          @relation(fields: [school_id], references: [id])
   school_id       Int?
   google_id       String?
+  is_verified     Boolean          @default(false)
   is_teacher      Boolean          @default(false)
   is_parent       Boolean          @default(false)
   is_student      Boolean          @default(false)
@@ -45,28 +46,28 @@ model School {
   @@map("schools")
 }
 
-model Role {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique
-  permissions Permission[]
-  users       User[]
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
-  deleted_at  DateTime?
+// model Role {
+//   id          Int          @id @default(autoincrement())
+//   name        String       @unique
+//   permissions Permission[]
+//   users       User[]
+//   created_at  DateTime     @default(now())
+//   updated_at  DateTime     @updatedAt
+//   deleted_at  DateTime?
 
-  @@map("roles")
-}
+//   @@map("roles")
+// }
 
-model Permission {
-  id         Int       @id @default(autoincrement())
-  name       String    @unique
-  roles      Role[]
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
+// model Permission {
+//   id         Int       @id @default(autoincrement())
+//   name       String    @unique
+//   roles      Role[]
+//   created_at DateTime  @default(now())
+//   updated_at DateTime  @updatedAt
+//   deleted_at DateTime?
 
-  @@map("permissions")
-}
+//   @@map("permissions")
+// }
 
 model Subscription {
   id         Int       @id @default(autoincrement())

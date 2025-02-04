@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from 'next/server'
 import { ROOT_DOMAIN, PORT } from './utils'
 import { apiAuthPrefix } from './routes'
@@ -28,11 +29,11 @@ export default async function middleware(req: NextRequest) {
     console.log('++++++++++++++++++++++++++++++++++++')
 
     //rewrites for app pages
-    if (hostname == `app.${ROOT_DOMAIN}`) {
-        return NextResponse.rewrite(
-            new URL(`/app${path === '/' ? '/' : path}`, req.url)
-        )
-    }
+    // if (hostname == `app.${ROOT_DOMAIN}`) {
+    //     return NextResponse.rewrite(
+    //         new URL(`/app${path === '/' ? '/' : path}`, req.url)
+    //     )
+    // }
 
     return
 }

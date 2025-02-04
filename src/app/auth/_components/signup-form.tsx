@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -18,10 +18,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signupSchema } from "@/schema";
+import { create_teacher } from "@/actions/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export function SignupForm() {
-  const [isLoading, setIsLoading] = useState(false);
-
+export function SignupForm({
+  account_type,
+}: {
+  account_type?: "teacher" | "parent" | "school";
+}) {
+  const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -32,10 +39,19 @@ export function SignupForm() {
   });
 
   async function onSubmit(values: z.infer<typeof signupSchema>) {
-    setIsLoading(true);
-    // Handle form submission
-    console.log(values);
-    setIsLoading(false);
+    startTransition(async () => {
+      if (account_type === "teacher") {
+        await create_teacher(values).then((res) => {
+          console.log(res);
+          if (res.success) {
+            toast.success("Account created successfully");
+            router.push("/auth/sign-in");
+          } else {
+            toast.error(res.error);
+          }
+        });
+      }
+    });
   }
 
   return (
@@ -142,7 +158,7 @@ export function SignupForm() {
       <div className="text-center text-sm">
         Already have an account?{" "}
         <Link
-          href="/login"
+          href="/auth/sign-in"
           className="underline underline-offset-4 hover:text-primary"
         >
           Sign in

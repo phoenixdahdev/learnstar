@@ -30,21 +30,21 @@ export default function GetStartedPage() {
             title: "Teacher",
             icon: GraduationCap,
             color: "blue",
-            href: "/signup/teacher",
+            href: "/auth/sign-up/teacher",
             description: "Join as an independent educator",
           },
           {
             title: "School",
             icon: School,
             color: "green",
-            href: "/signup/school",
+            href: "/auth/sign-up/school",
             description: "Register your educational institution",
           },
           {
             title: "Parent",
             icon: Users,
             color: "purple",
-            href: "/signup/parent",
+            href: "/auth/sign-up/parent",
             description: "Support your child's education",
           },
         ].map((item, index) => (
@@ -65,10 +65,11 @@ export default function GetStartedPage() {
             </CardHeader>
             <CardContent>
               <Button
-                asChild
+                asChild={item.title !== "Teacher"}
                 className={cn(
-                  `hover:bg-${item.color}-700 bg-${item.color}-600 w-full`
+                  `hover:bg-${item.color}-700 bg-${item.color}-600 w-full disabled:cursor-not-allowed`
                 )}
+                disabled={item.title !== "Teacher"}
               >
                 <Link href={item.href}>
                   Get Started <ArrowRight className="ml-2 w-4 h-4" />
@@ -82,7 +83,7 @@ export default function GetStartedPage() {
       <p className="mt-12 text-gray-600 text-center text-lg">
         Already have an account?{" "}
         <Link
-          href="/sign-in"
+          href="/auth/sign-in"
           className="text-blue-600 hover:underline font-semibold"
         >
           Log in
