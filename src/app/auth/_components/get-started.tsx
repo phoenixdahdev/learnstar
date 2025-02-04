@@ -67,13 +67,17 @@ export default function GetStartedPage() {
               <Button
                 asChild={item.title !== "Teacher"}
                 className={cn(
-                  `hover:bg-${item.color}-700 bg-${item.color}-600 w-full disabled:cursor-not-allowed`
+                  `hover:bg-${item.color}-700 bg-${item.color}-600 w-full disabled:cursor-not-allowed text-black`
                 )}
                 disabled={item.title !== "Teacher"}
               >
-                <Link href={item.href}>
-                  Get Started <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
+                {item.title === "Teacher" ? (
+                  <Link href={item.href}>
+                    Get Started <ArrowRight className="ml-2 w-4 h-4" />
+                  </Link>
+                ) : (
+                  <span className="">Coming soon</span>
+                )}
               </Button>
             </CardContent>
           </Card>
