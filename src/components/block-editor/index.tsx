@@ -1,7 +1,7 @@
+"use client";
 import { EditorContent } from "@tiptap/react";
 import React, { useRef } from "react";
 import { useBlockEditor } from "@/hooks/use-editor";
-
 import "@/styles/index.css";
 
 import { TableColumnMenu } from "@/editor/extentions/table/menus/table-colum/index";

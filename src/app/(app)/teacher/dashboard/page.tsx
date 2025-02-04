@@ -1,7 +1,8 @@
+import BlockEditor from "@/components/block-editor";
 import React from "react";
 
 const page = () => {
-  return <div>page</div>;
+  return <BlockEditor />;
 };
 
 export default page;

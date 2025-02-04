@@ -42,6 +42,8 @@ import Table from './table/table'
 import { TableCell } from './table/cell'
 import TableHeader from './table/header'
 import TableRow from './table/row'
+import Selection from './selection'
+import Document from './document'
 
 
 export const ExtensionKit = () => [

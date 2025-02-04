@@ -15,7 +15,7 @@ export const useBlockEditor = (options: Partial<Omit<EditorOptions, "extensions"
     const editor = useEditor(
         {
             ...options,
-            immediatelyRender: true,
+            immediatelyRender: false,
             shouldRerenderOnTransaction: false,
             autofocus: true,
             extensions: [
