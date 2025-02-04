@@ -67,7 +67,7 @@ export const GROUPS: Group[] = [
                 description: 'Unordered list of items',
                 aliases: ['ul'],
                 action: editor => {
-                    // @ts-expect-error next line
+
                     editor.chain().focus().toggleBulletList().run()
                 },
             },
@@ -78,7 +78,7 @@ export const GROUPS: Group[] = [
                 description: 'Ordered list of items',
                 aliases: ['ol'],
                 action: editor => {
-                    // @ts-expect-error next line
+
                     editor.chain().focus().toggleOrderedList().run()
                 },
             },
@@ -89,7 +89,7 @@ export const GROUPS: Group[] = [
                 description: 'Task list with todo items',
                 aliases: ['todo'],
                 action: editor => {
-                    // @ts-expect-error next line
+
                     editor.chain().focus().toggleTaskList().run()
                 },
             },
@@ -100,7 +100,7 @@ export const GROUPS: Group[] = [
                 description: 'Toggles can show and hide content',
                 aliases: ['toggle'],
                 action: editor => {
-                    // @ts-expect-error next line
+
                     editor.chain().focus().setDetails().run()
                 },
             },
@@ -136,7 +136,7 @@ export const GROUPS: Group[] = [
                 description: 'Insert a table',
                 shouldBeHidden: editor => editor.isActive('columns'),
                 action: editor => {
-                    // @ts-expect-error next line
+
                     editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: false }).run()
                 },
             },
@@ -184,7 +184,7 @@ export const GROUPS: Group[] = [
                 description: 'Insert a table of contents',
                 shouldBeHidden: editor => editor.isActive('columns'),
                 action: editor => {
-                    // @ts-expect-error next line
+                    // @ts-expect-error next line 
                     editor.chain().focus().insertTableOfContents().run()
                 },
             },
