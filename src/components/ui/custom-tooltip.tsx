@@ -34,7 +34,7 @@ export function CustomTooltip({
       {isVisible && (
         <div
           className={cn(
-            "absolute z-10 rounded-md bg-gray-900 px-2 py-1 text-sm font-medium text-white shadow-sm",
+            "absolute z-10 rounded-md bg-gray-900 px-2 py-1 text-sm font-medium text-white shadow-xs",
             positionClasses[side]
           )}
         >

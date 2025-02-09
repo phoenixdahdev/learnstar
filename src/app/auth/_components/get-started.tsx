@@ -13,7 +13,7 @@ import { cn } from "@/utils";
 
 export default function GetStartedPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fdf6ec] to-[#f7e8d4] flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-linear-to-b from-[#fdf6ec] to-[#f7e8d4] flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-4xl text-center mb-12">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 mb-4">
           Welcome to LearnStar.AI

@@ -82,7 +82,7 @@ export function DigitalResults() {
                   <strong>Overall Grade:</strong> A
                 </p>
               </div>
-              <div className="mt-4 p-2 bg-cream rounded">
+              <div className="mt-4 p-2 bg-cream rounded-sm">
                 <p className="text-sm text-brown/70">
                   Enter student ID to view full report
                 </p>

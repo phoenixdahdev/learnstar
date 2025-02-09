@@ -48,14 +48,14 @@ export const Menu = ({
               // @ts-expect-error next line no class name
         <Popover.Portal className="z-9999">
           <Popover.Content asChild sideOffset={8}>
-            <Surface className="min-w-[15rem] p-2 flex flex-col gap-0.5 max-h-80 overflow-auto z-[9999]">
+            <Surface className="min-w-[15rem] p-2 flex flex-col gap-0.5 max-h-80 overflow-auto z-9999">
               {children}
             </Surface>
           </Popover.Content>
         </Popover.Portal>
       ) : (
         <Popover.Content asChild sideOffset={8}>
-          <Surface className="min-w-[15rem] p-2 flex flex-col gap-0.5 max-h-80 overflow-auto z-[9999]">
+          <Surface className="min-w-[15rem] p-2 flex flex-col gap-0.5 max-h-80 overflow-auto z-9999">
             {children}
           </Surface>
         </Popover.Content>
@@ -84,7 +84,7 @@ export const Item = ({
   isActive?: boolean;
 }) => {
   const className = cn(
-    "flex items-center gap-2 p-1.5 text-sm font-medium text-neutral-500 text-left bg-transparent w-full rounded",
+    "flex items-center gap-2 p-1.5 text-sm font-medium text-neutral-500 text-left bg-transparent w-full rounded-sm",
     !isActive && !disabled,
     "hover:bg-neutral-100 hover:text-neutral-800 dark:hover:bg-neutral-900 dark:hover:text-neutral-200",
     isActive &&
