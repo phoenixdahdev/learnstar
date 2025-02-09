@@ -4,8 +4,6 @@
 
 @plugin 'tailwindcss-animate';
 
-@safelist "ProseMirror"
-
 @custom-variant dark (&:is(.dark *));
 
 @theme {
