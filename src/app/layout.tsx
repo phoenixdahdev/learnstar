@@ -5,6 +5,7 @@ import { cn } from "@/utils";
 import type React from "react";
 import { Toaster } from "sonner";
 import { Providers } from "./provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   display: "swap",
@@ -106,6 +107,7 @@ export default function RootLayout({
             <Toaster richColors expand={true} position="top-right" />
           </main>
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
