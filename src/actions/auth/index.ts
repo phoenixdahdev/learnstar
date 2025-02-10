@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use server"
 
-import prisma from "@/utils/primsa"
-import { loginSchema, signupSchema } from '../../schema/index';
+import prisma from "@/utils/primsa";
+import { loginSchema, signupSchema } from "../../schema/index";
 import { z } from "zod";
 import { cookies } from "next/headers";
 
 export async function create_teacher(data: z.infer<typeof signupSchema>) {
     const user = await prisma.user.findUnique({
         where: {
-            email: data.email
-        }
+            email: data.email,
+        },
     });
 
     if (user) {
         return {
             error: "User already exists",
-            success: false
+            success: false,
         };
     }
 
-    // Password is stored in plain text (NOT RECOMMENDED for production)
+    // Password stored in plain text (not recommended)
     const new_user = await prisma.user.create({
         data: {
             email: data.email,
@@ -31,12 +31,15 @@ export async function create_teacher(data: z.infer<typeof signupSchema>) {
             teacher_profile: {
                 create: {},
             },
-        }
+        },
     });
+
+    // Remove password before returning
+    const { password, ...userWithoutPassword } = new_user;
 
     return {
         success: true,
-        user: new_user
+        user: userWithoutPassword,
     };
 }
 
@@ -47,8 +50,8 @@ export async function google_login(email: string, name?: string) {
 
     user = await prisma.user.findUnique({
         where: {
-            email: email
-        }
+            email: email,
+        },
     });
 
     if (!user) {
@@ -58,11 +61,13 @@ export async function google_login(email: string, name?: string) {
                 name: name,
                 is_teacher: true,
                 is_verified: true,
-            }
+            },
         });
     }
 
-    return user;
+    // Remove password before returning
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
 }
 
 export async function login(data: z.infer<typeof loginSchema>) {
@@ -95,8 +100,11 @@ export async function login(data: z.infer<typeof loginSchema>) {
         };
     }
 
+    // Remove password before returning
+    const { password, ...userWithoutPassword } = user;
+
     return {
         success: true,
-        user: user,
+        user: userWithoutPassword,
     };
 }
