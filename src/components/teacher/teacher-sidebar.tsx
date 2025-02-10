@@ -56,6 +56,11 @@ const navigation = [
     href: "/teacher/calendar",
   },
   {
+    title: "Assistant",
+    icon: Calendar,
+    href: "/teacher/assistant",
+  },
+  {
     title: "Settings",
     icon: Settings,
     href: "/teacher/settings",

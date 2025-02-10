@@ -29,11 +29,12 @@ const mockAssignment = {
   ],
 };
 
-export default function SubmitAssignmentPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+// {
+//   params,
+// }: {
+//   params: { id: string };
+// })
+export default function SubmitAssignmentPage() {
   const router = useRouter();
   const [studentName, setStudentName] = useState("");
   const [answers, setAnswers] = useState<Array<string | File>>([]);
