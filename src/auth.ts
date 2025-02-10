@@ -16,7 +16,6 @@ export const {
 
 declare module 'next-auth' {
     interface Session {
-        user: User
-        & DefaultSession['user'],
+        user: User & Omit<DefaultSession['user'], 'id'>;
     }
 }

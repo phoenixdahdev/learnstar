@@ -131,6 +131,7 @@ enum Plan {
 
 model ChatSession {
   id         Int           @id @default(autoincrement())
+  session_id String        @unique // New field for external ID
   topic      String
   user       User          @relation(fields: [user_id], references: [id])
   user_id    Int

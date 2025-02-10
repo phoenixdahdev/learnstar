@@ -55,7 +55,7 @@ export async function google_login(email: string, name?: string) {
             data: {
                 email: email,
                 name: name,
-                is_teacher: false,
+                is_teacher: true,
                 is_verified: true,
             }
         })

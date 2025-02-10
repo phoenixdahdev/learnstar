@@ -56,7 +56,19 @@ export interface Command {
 }
 
 export interface MenuListProps {
-    editor: CoreEditor 
+    editor: CoreEditor
     items: Group[]
     command: (command: Command) => void
+}
+
+
+interface ChatSession {
+    id: number
+    session_id: string
+    topic: string
+    messages: {
+        id: number
+        content: string
+        role: "user" | "assistant"
+    }[]
 }
