@@ -1,11 +1,12 @@
-import { CoreMessage, streamText } from "ai";
+import { CoreMessage, streamText, generateId } from "ai";
 import { openai } from "@/utils";
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import prisma from "@/utils/primsa";
-export const runtime = "edge";
-import { v4 as uuidv4 } from "uuid"
 import { ChatSession } from "@prisma/client";
+
+
+export const runtime = "edge";
 
 export async function POST(req: Request) {
     const { messages, topic, sessionId }: { messages: CoreMessage[], topic: string, sessionId: string } = await req.json();
@@ -33,7 +34,7 @@ export async function POST(req: Request) {
             return NextResponse.json("Chat session not found", { status: 404 })
         }
     } else {
-        const newSessionId = uuidv4()
+        const newSessionId = generateId()
         chatSession = await prisma.chatSession.create({
             data: {
                 session_id: newSessionId,
