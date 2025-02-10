@@ -29,6 +29,7 @@ model User {
   student_profile StudentProfile?
   parents         ParentProfile[]  @relation("ParentChild")
   children        StudentProfile[] @relation("ParentChild")
+  ChatSession     ChatSession[]
 
   @@map("users")
 }
@@ -126,4 +127,23 @@ enum Plan {
   BASIC
   PREMIUM
   ENTERPRISE
+}
+
+model ChatSession {
+  id         Int           @id @default(autoincrement())
+  topic      String
+  user       User          @relation(fields: [user_id], references: [id])
+  user_id    Int
+  created_at DateTime      @default(now())
+  updated_at DateTime      @updatedAt
+  messages   ChatMessage[]
+}
+
+model ChatMessage {
+  id              Int         @id @default(autoincrement())
+  content         String
+  role            String // 'user' or 'assistant'
+  chat_session    ChatSession @relation(fields: [chat_session_id], references: [id])
+  chat_session_id Int
+  created_at      DateTime    @default(now())
 }

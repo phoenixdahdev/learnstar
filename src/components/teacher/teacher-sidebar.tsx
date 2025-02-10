@@ -1,9 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, LayoutDashboard, Settings } from "lucide-react";
+import {
+  BookOpen,
+  GraduationCap,
+  Users,
+  Calendar,
+  FileText,
+  HelpCircle,
+  ChevronDown,
+  LayoutDashboard,
+  Settings,
+} from "lucide-react";
 import { cn } from "@/utils";
 import { CustomAvatar } from "../ui/custom-avatar";
 import {
@@ -25,14 +36,29 @@ const navigation = [
     href: "/teacher/dashboard",
   },
   {
-    title: "Lesson Notes",
-    icon: LayoutDashboard,
-    href: "/teacher/lesson-note",
+    title: "Students",
+    icon: Users,
+    href: "/teacher/students",
   },
   {
-    title: "todo",
+    title: "Classes",
+    icon: GraduationCap,
+    href: "/teacher/classes",
+  },
+  {
+    title: "Assignments",
+    icon: FileText,
+    href: "/teacher/assignments",
+  },
+  {
+    title: "Calendar",
+    icon: Calendar,
+    href: "/teacher/calendar",
+  },
+  {
+    title: "Settings",
     icon: Settings,
-    href: "/teacer/dashboard",
+    href: "/teacher/settings",
   },
 ];
 
@@ -69,7 +95,7 @@ export function Sidebar() {
       </div>
 
       {/* Organization Select */}
-      <div className="p-4">
+      {/* <div className="p-4">
         {isCollapsed ? (
           <CustomTooltip content={data?.user.name as string}>
             <CustomAvatar
@@ -109,7 +135,7 @@ export function Sidebar() {
             </SelectContent>
           </Select>
         )}
-      </div>
+      </div> */}
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 p-2 flex flex-col">

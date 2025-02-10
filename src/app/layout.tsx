@@ -99,10 +99,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning>
       <body className={cn("relative antialiased", inter.className)}>
         <Providers>
-          <main className="relative min-h-dvh w-full bg-cream">
+          <main className="relative min-h-dvh w-full bg-cream text-black">
             {children}
             <Toaster richColors expand={true} position="top-right" />
           </main>
