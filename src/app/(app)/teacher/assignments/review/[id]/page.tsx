@@ -46,11 +46,7 @@ const mockSubmissions = [
   },
 ];
 
-export default function ReviewAssignmentPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function ReviewAssignmentPage() {
   const [feedback, setFeedback] = useState<{ [key: string]: string }>({});
   const [grades, setGrades] = useState<{ [key: string]: string }>({});
 
