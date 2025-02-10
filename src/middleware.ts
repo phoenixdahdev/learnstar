@@ -2,9 +2,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ROOT_DOMAIN, PORT } from './utils'
 import { apiAuthPrefix } from './routes'
+import { auth } from './auth'
 
 export default async function middleware(req: NextRequest) {
     const { nextUrl } = req
+    const session = await auth()
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
 
@@ -28,12 +30,8 @@ export default async function middleware(req: NextRequest) {
     console.log('PATH: ', path)
     console.log('++++++++++++++++++++++++++++++++++++')
 
-    //rewrites for app pages
-    // if (hostname == `app.${ROOT_DOMAIN}`) {
-    //     return NextResponse.rewrite(
-    //         new URL(`/app${path === '/' ? '/' : path}`, req.url)
-    //     )
-    // }
+    console.log(session)
+
 
     return
 }

@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials"
 import type { NextAuthConfig, } from "next-auth"
 import { inDevEnvironment } from "@/utils"
 import { loginSchema } from "@/schema"
-import { login } from '@/actions/auth';
+import { google_login, login } from '@/actions/auth';
 
 const authConfig: NextAuthConfig = {
     providers: [
@@ -48,10 +48,32 @@ const authConfig: NextAuthConfig = {
             }
             return !!user
         },
-        async jwt({ token, user, }) {
-            return { ...token, ...user };
-            // if (account && account.provider === "credentials") {
-            // }
+        async jwt({ token, user, account, trigger, session, profile }) {
+            if (trigger === 'update') {
+                token = { ...token, ...session }
+                return token
+            }
+            if (account && account.provider !== 'google') {
+                return { ...token, ...user }
+            }
+
+            if (account && account.provider === 'google') {
+
+                if (!profile?.email) {
+                    return null
+                }
+
+                const res = await google_login(profile?.email)
+
+                console.log(res, "Google")
+                // @ts-expect-error next line
+                user = {
+                    ...user,
+                    ...res,
+                }
+                return { ...token, ...user, ...res };
+            }
+            return { ...token, ...user }
         },
         async session({ session, token }) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any

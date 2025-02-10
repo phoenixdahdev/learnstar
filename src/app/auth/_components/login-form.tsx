@@ -121,7 +121,7 @@ export function LoginForm() {
         variant="outline"
         type="button"
         className="w-full"
-        onClick={() => signIn("google", { redirectTo: "/redirect" })}
+        onClick={() => signIn("google", { redirectTo: "/teacher/dashboard" })}
       >
         <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
           <path
