@@ -7,7 +7,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex h-screen min-h-screen w-full sm:overflow-clip text-black">
+    <div className="relative flex h-screen min-h-screen w-full sm:overflow-clip text-black bg-cream/80">
       <Sidebar />
       <div className="flex flex-1 flex-col">
         <Header />
