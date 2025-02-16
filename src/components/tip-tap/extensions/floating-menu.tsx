@@ -384,7 +384,7 @@ export function TipTapFloatingMenu({ editor }: { editor: Editor }) {
                       }}
                       tabIndex={flatIndex === selectedIndex ? 0 : -1}
                     >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-md border bg-background">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-md border bg-cream">
                         <item.icon className="h-4 w-4" />
                       </div>
                       <div className="flex flex-1 flex-col">
@@ -395,7 +395,7 @@ export function TipTapFloatingMenu({ editor }: { editor: Editor }) {
                           {item.description}
                         </span>
                       </div>
-                      <kbd className="ml-auto flex h-5 items-center rounded bg-muted px-1.5 text-xs text-muted-foreground">
+                      <kbd className="ml-auto flex h-5 items-center rounded bg-cream px-1.5 text-xs text-muted-foreground">
                         ↵
                       </kbd>
                     </CommandItem>

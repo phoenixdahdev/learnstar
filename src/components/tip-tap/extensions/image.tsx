@@ -234,7 +234,7 @@ function TiptapImage(props: NodeViewProps) {
     <NodeViewWrapper
       ref={nodeRef}
       className={cn(
-        "relative flex flex-col rounded-md border-2 border-transparent transition-all duration-200",
+        "relative flex flex-col rounded-md transition-all duration-200",
         selected ? "border-blue-300" : "",
         node.attrs.align === "left" && "left-0 -translate-x-0",
         node.attrs.align === "center" && "left-1/2 -translate-x-1/2",
@@ -309,7 +309,7 @@ function TiptapImage(props: NodeViewProps) {
         {editor?.isEditable && (
           <div
             className={cn(
-              "absolute right-4 top-4 flex items-center gap-1 rounded-md border bg-background/80 p-1 opacity-0 backdrop-blur transition-opacity",
+              "absolute right-4 top-4 flex items-center gap-1 rounded-md border bg-cream/80 p-1 opacity-0 backdrop-blur transition-opacity",
               !resizing && "group-hover:opacity-100",
               openedMore && "opacity-100"
             )}

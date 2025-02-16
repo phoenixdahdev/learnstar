@@ -48,7 +48,6 @@ export function FloatingToolbar({ editor }: { editor: Editor | null }) {
             offset: [0, 10],
           }}
           shouldShow={() => {
-            // Show toolbar when editor is focused and has selection
             return editor.isEditable && editor.isFocused;
           }}
           editor={editor}

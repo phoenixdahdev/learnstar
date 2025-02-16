@@ -19,6 +19,7 @@ import { TipTapFloatingMenu } from "./extensions/floating-menu";
 import { FloatingToolbar } from "./extensions/floating-toolbar";
 import { EditorToolbar } from "./toolbars/editor-toolbar";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useLessonStore } from "@/hooks/lesson-store";
 
 const extensions = [
   StarterKit.configure({
@@ -70,13 +71,8 @@ const extensions = [
   Typography,
 ];
 
-export function RichTextEditorDemo({
-  className,
-  content,
-}: {
-  className?: string;
-  content: string;
-}) {
+export function RichTextEditorDemo({ className }: { className?: string }) {
+  const { content, setContent } = useLessonStore();
   const editor = useEditor({
     immediatelyRender: false,
     extensions: extensions as Extension[],
@@ -87,7 +83,7 @@ export function RichTextEditorDemo({
       },
     },
     onUpdate: ({ editor }) => {
-      console.log(editor.getText());
+      setContent(editor.getHTML());
     },
   });
 
@@ -96,7 +92,7 @@ export function RichTextEditorDemo({
   return (
     <div
       className={cn(
-        "relative max-h-[calc(100dvh-6rem)]  w-full overflow-hidden overflow-y-scroll border bg-card pb-[60px] sm:pb-0",
+        "relative max-h-[calc(100dvh-6rem)]  w-full overflow-hidden overflow-y-scroll border pb-[60px] sm:pb-0",
         className
       )}
     >

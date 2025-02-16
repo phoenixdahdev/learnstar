@@ -220,7 +220,7 @@ export default function DashboardPage() {
                 {card.availabee ? (
                   <Link href={`/teacher${card.link}`}>{card.buttonText}</Link>
                 ) : (
-                  card.buttonText
+                  card.buttonText + " (Coming Soon)"
                 )}
               </Button>
             </CardContent>
