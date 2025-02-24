@@ -1,9 +1,9 @@
 import { CoreMessage, streamText, generateId } from "ai";
-import { openai } from "@/utils";
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import prisma from "@/utils/primsa";
 import { ChatSession } from "@prisma/client";
+import { mistral } from "@ai-sdk/mistral";
 
 
 export const runtime = "edge";
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     })
 
     const result = streamText({
-        model: openai("gpt-4"),
+        model: mistral('open-codestral-mamba'),
         system: `
         You are **LearnStar**, an intelligent and resourceful AI assistant designed to create **comprehensive, well-structured, and engaging lesson notes**. 
         Your goal is to provide **detailed, easy-to-understand, and structured educational content** on any given topic, ensuring clarity and depth for learners of all levels.

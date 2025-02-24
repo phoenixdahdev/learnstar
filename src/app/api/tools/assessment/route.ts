@@ -1,5 +1,5 @@
 import { CoreMessage, streamText } from "ai";
-import { openai } from "@/utils";
+import { mistral } from "@ai-sdk/mistral";
 
 export const runtime = "edge";
 
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { messages }: { messages: CoreMessage[] } = await req.json();
 
     const result = streamText({
-        model: openai("gpt-3.5-turbo"),
+        model: mistral('open-codestral-mamba'),
         system: `Your name is LearnStar, You are an expert assessment creator. Generate assessment questions that:
         1. Are aligned with learning objectives
         2. Include a mix of question types (MCQ, short answer, etc.)

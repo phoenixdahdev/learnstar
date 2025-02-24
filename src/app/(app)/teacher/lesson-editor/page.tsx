@@ -1,8 +1,8 @@
 import React from "react";
-import { RichTextEditorDemo } from "../../../../components/tip-tap/rich-text-editor";
+import LessonEditir from ".";
 
-const LessonEditir = () => {
-  return <RichTextEditorDemo />;
+const LessonEditor = () => {
+  return <LessonEditir />;
 };
 
-export default LessonEditir;
+export default LessonEditor;

@@ -1,4 +1,4 @@
-import { openai } from "@/utils";
+import { mistral } from "@ai-sdk/mistral";
 import { CoreMessage, streamText } from "ai";
 
 
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { messages }: { messages: CoreMessage[] } = await req.json();
 
     const result = streamText({
-        model: openai("gpt-4"),
+        model: mistral('open-codestral-mamba'),
         system: `Your name is LearnStar, You are an expert teacher and curriculum developer. Create a detailed lesson note following this structure:
         1. Topic Overview
         2. Learning Objectives
