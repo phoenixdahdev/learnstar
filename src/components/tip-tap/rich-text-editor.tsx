@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import "./tiptap.css";
 import { cn } from "@/utils";
@@ -22,6 +23,9 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { useLessonStore } from "@/hooks/lesson-store";
 import { useCallback, useEffect, useState } from "react";
 import { MessageSquareIcon, X } from "lucide-react";
+import { useChat } from "@ai-sdk/react";
+import { marked } from "marked";
+import parse from "html-react-parser";
 
 const extensions = [
   StarterKit.configure({
@@ -79,6 +83,7 @@ export function RichTextEditorDemo({ className }: { className?: string }) {
   const [userInput, setUserInput] = useState("");
   const [aiResponse, setAiResponse] = useState("");
   const [isAiPopupOpen, setIsAiPopupOpen] = useState(false);
+  const [lastResponse, setLastResponse] = useState<string>("");
   const [floatingPosition, setFloatingPosition] = useState<{
     x: number;
     y: number;
@@ -128,36 +133,37 @@ export function RichTextEditorDemo({ className }: { className?: string }) {
     }
   }, [editor]);
 
-  const getMockAiResponse = () => {
-    // Mock AI response based on user input
-    const responses = {
-      "Explain this code":
-        "This code block configures an Nginx server to listen on port 80 and proxy requests to a local server running on port 3000. It also sets up error pages and forwards necessary headers.",
-      "Optimize this configuration":
-        "To optimize, consider adding caching headers, enabling gzip compression, and adjusting worker processes based on your server's CPU cores.",
-      "Add SSL configuration":
-        "To add SSL, you'll need to listen on port 443, specify SSL certificate and key files, and redirect HTTP traffic to HTTPS.",
-    };
-    return (
-      responses[userInput as keyof typeof responses] ||
-      "I'm not sure how to help with that specific request. Could you please try asking something else?"
-    );
-  };
+  const { messages, handleSubmit, setMessages, status, setInput } = useChat({
+    api: "/api/protected/teacher/chat",
+    onError: (error) => {
+      console.error("Chat error:", error);
+    },
+    onFinish: (message) => {
+      if (message.role === "assistant") {
+        setLastResponse(message.content);
+      }
+    },
+  });
 
-  const getAiResponse = () => {
-    const response = getMockAiResponse();
-    setAiResponse(response);
+  const handleGetResponse = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!userInput.trim()) return;
+    setInput(
+      `Selected text: ${selectedText}\n\nUser request: ${userInput}\n\nPlease respond to the user's request regarding the selected text.`
+    );
+    handleSubmit(e);
   };
   const applyChange = useCallback(() => {
-    if (editor && aiResponse) {
-      editor.chain().focus().deleteSelection().insertContent(aiResponse).run();
+    const html = marked.parse(lastResponse);
+    if (editor && lastResponse) {
+      editor.chain().focus().deleteSelection().insertContent(html).run();
       setIsAiPopupOpen(false);
       setSelectedText("");
       setAiResponse("");
       setUserInput("");
       setFloatingPosition(null);
     }
-  }, [editor, aiResponse]);
+  }, [editor, lastResponse]);
 
   if (!editor) return null;
 
@@ -185,7 +191,7 @@ export function RichTextEditorDemo({ className }: { className?: string }) {
         >
           <button
             onClick={() => setIsAiPopupOpen(!isAiPopupOpen)}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 text-xs bg-[#fdf6ec] text-gray-800 rounded-md hover:bg-[#f5e9d9] transition-colors"
           >
             <MessageSquareIcon className="h-3 w-3" />
             Ask AI
@@ -193,74 +199,85 @@ export function RichTextEditorDemo({ className }: { className?: string }) {
         </div>
       )}
       {isAiPopupOpen && (
-        <div className="fixed right-4 top-4 w-[400px] bg-zinc-800 rounded-lg shadow-xl border border-zinc-700 z-50">
-          <div className="flex items-center justify-between p-3 border-b border-zinc-700">
-            <h3 className="text-sm font-medium">AI Assistant</h3>
+        <div className="fixed right-4 top-4 w-[400px] bg-[#fdf6ec] rounded-lg shadow-xl border border-[#e5d5bc] z-50">
+          <div className="flex items-center justify-between p-3 border-b border-[#e5d5bc]">
+            <h3 className="text-sm font-medium text-gray-800">LearnStar</h3>
             <button
               onClick={() => {
                 setIsAiPopupOpen(false);
                 setAiResponse("");
                 setUserInput("");
+                setMessages([]);
               }}
-              className="text-zinc-400 hover:text-white transition-colors"
+              className="text-gray-500 hover:text-gray-800 transition-colors"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
 
           <div className="p-3 space-y-3">
-            <div className="bg-zinc-900/50 rounded p-2">
-              <p className="text-xs text-zinc-400">Selected text:</p>
-              <p className="mt-1 text-xs font-mono">{selectedText}</p>
+            <div className="bg-[#f5e9d9] rounded p-2">
+              <p className="text-xs text-gray-600">Selected text:</p>
+              <p className="mt-1 text-xs font-mono text-gray-800">
+                {selectedText}
+              </p>
             </div>
 
-            <div className="space-y-2">
+            <form onSubmit={handleGetResponse} className="space-y-2">
               <input
                 type="text"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder="What would you like to do with this text?"
-                className="w-full px-2 py-1.5 text-sm bg-zinc-900/50 rounded border border-zinc-700 focus:outline-none focus:border-blue-500"
+                className="w-full px-2 py-1.5 text-sm bg-white rounded border border-[#e5d5bc] focus:outline-none focus:border-[#d4b894] text-gray-800 placeholder:text-gray-500"
               />
 
               <button
-                onClick={getAiResponse}
-                disabled={!userInput.trim()}
-                className="w-full px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                type="submit"
+                disabled={
+                  !userInput.trim() ||
+                  status === "streaming" ||
+                  status === "submitted"
+                }
+                className="w-full px-3 py-1.5 text-sm bg-[#d4b894] text-gray-800 rounded hover:bg-[#c5a47c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Get AI Response
+                {status === "streaming" || status === "submitted"
+                  ? "Getting Response..."
+                  : "Get AI Response"}
               </button>
-            </div>
+            </form>
 
-            {aiResponse && (
-              <>
-                <div className="bg-zinc-900/50 rounded p-2">
-                  <p className="text-xs text-zinc-400">AI Response:</p>
-                  <p className="mt-1 text-xs font-mono whitespace-pre-wrap">
-                    {aiResponse}
-                  </p>
-                </div>
+            {messages.length > 0 &&
+              messages[messages.length - 1].role === "assistant" && (
+                <div className="h-[400px] overflow-auto">
+                  <div className="bg-[#f5e9d9] rounded p-2">
+                    <p className="text-xs text-gray-600">AI Response:</p>
+                    <p className="mt-1 text-xs font-mono whitespace-pre-wrap text-gray-800">
+                      {messages[messages.length - 1].content}
+                    </p>
+                  </div>
 
-                <div className="flex justify-end gap-2 pt-2">
-                  <button
-                    onClick={() => {
-                      setIsAiPopupOpen(false);
-                      setAiResponse("");
-                      setUserInput("");
-                    }}
-                    className="px-3 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={applyChange}
-                    className="px-3 py-1.5 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-                  >
-                    Apply Change
-                  </button>
+                  <div className="flex justify-end gap-2 pt-2">
+                    <button
+                      onClick={() => {
+                        setIsAiPopupOpen(false);
+                        setAiResponse("");
+                        setMessages([]);
+                        setUserInput("");
+                      }}
+                      className="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-800 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={applyChange}
+                      className="px-3 py-1.5 text-xs bg-[#d4b894] text-gray-800 rounded hover:bg-[#c5a47c] transition-colors"
+                    >
+                      Apply Change
+                    </button>
+                  </div>
                 </div>
-              </>
-            )}
+              )}
           </div>
         </div>
       )}

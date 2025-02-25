@@ -33,6 +33,9 @@ export default function LessonPlanner() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
       api: "/api/protected/teacher/planner",
+      onError: (error) => {
+        console.error("Chat error:", error);
+      },
     });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
